@@ -31,6 +31,8 @@ if __name__ == '__main__':
         round = round + 1
         winner = game.get_winner(board)
         player = game.other_player(player)
+        if round  == 9:
+            break
     
     # Report the final result
     if winner == None:
