@@ -7,8 +7,14 @@ if __name__ == '__main__':
     winner = None
     player = 'X'
     round = 0
-    
+
     game_mode = input("Please input your game mode (PvP or PvE):")
+
+    # Obtain the name of players
+    player_name = []
+    player_name.append(input('Player name for X:'))
+    if game_mode == 'PvP':
+        player_name.append(input('Player name for O:'))
 
     while winner == None and round <= 9:
         print("TODO: take a turn!")
@@ -31,11 +37,17 @@ if __name__ == '__main__':
         round = round + 1
         winner = game.get_winner(board)
         player = game.other_player(player)
-        if round  == 9:
-            break
     
     # Report the final result
+    game.init_player(player_name)
+    score = []
     if winner == None:
+        score.append([0]*len(player_name))
         print("Dead Heat!")
     else:
         print('Game Stopped! The winner is', winner)
+        score.append(1) if winner == 'X' else score.append(-1)
+        if game_mode == 'PvP': score.append(0-sum(score))
+    # Update and show the stat
+    for stat in game.update_csv(player_name,score):
+        print('Player {0} Ranked at {4}: {1} Win, {2} Loss and {3} Draw'.format(*stat))
